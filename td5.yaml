@@ -1,0 +1,107 @@
+openapi: 3.0.3
+info:
+  title: STD23051 - TD5
+  version: '1.0.5'
+servers:
+  - url: https://localhost.std23051.com
+paths:
+  /customers:
+    get:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: Liste des clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Clients'
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClientsCreer'
+        required: true
+      responses:
+        200:
+          description: Liste des utilisateurs créer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Clients'
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Clients'
+        required: true
+      responses:
+        200:
+          description: MAJ complet utilisateur
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Clients'
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MAJPartielle'
+        required: true
+      responses:
+        200:
+          description: MAJ Clients avec quelques modification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+    CreateCustomer:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+    PartialCustomerUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Clients ID pour identification"
+        name:
+          type: string
+          description: "Optionel: MAJ nom du Client"
+        age:
+          type: integer
+          description: "Optionel: MAJ age du Client"
+      required:
+        - id
